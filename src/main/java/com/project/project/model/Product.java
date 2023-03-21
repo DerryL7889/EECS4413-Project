@@ -47,23 +47,23 @@ public class Product {
         return price;
     }
 
-    public void setCurrentBidPrice(Integer price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public String getAuctionType() {
+    public String getType() {
         return type;
     }
 
-    public void setAuctionType(String type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Integer getRemainingTime() {
+    public Integer getTime() {
         return time;
     }
 
-    public void setRemainingTime(Integer time) {
+    public void setTime(Integer time) {
         this.time = time;
     }
 }

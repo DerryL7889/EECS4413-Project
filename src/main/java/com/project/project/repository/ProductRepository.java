@@ -1,78 +1,52 @@
 package com.project.project.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
+import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
-
 import com.project.project.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 
 @Repository
 public class ProductRepository {
-    private Connection conn;
-    
-    public ProductRepository() {
-    	 try {
-    		 try {
-				Class.forName("org.sqlite.JDBC");
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-             String url = "jdbc:sqlite:auction.db";
-             this.conn = DriverManager.getConnection(url);
-         } catch (SQLException e) {
-             // Handle the exception here or throw a RuntimeException
-             throw new RuntimeException(e);
-         }
+
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public ProductRepository(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-    
-    public List<Product> getAllProducts() throws SQLException {
-        List<Product> products = new ArrayList<>();
+
+    public List<Product> getAllProducts() {
         String sql = "SELECT id, name, description, price, type, time FROM Products";
-        try (Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                System.out.println(id);
-                String name = rs.getString("name");
-                String description = rs.getString("description");
-                int price = rs.getInt("price");
-                String type = rs.getString("type");
-                int time = rs.getInt("time");
-                products.add(new Product(id, name, description, price, type, time));
-            }
-        }
-        return products;
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+        new Product(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getInt("price"),
+                rs.getString("type"),
+                rs.getInt("time")
+        		)
+        );
     }
+
     
     public List<Product> searchProducts(String keyword) throws SQLException {
-        List<Product> products = new ArrayList<>();
-        String sql = "SELECT id, name, description,price,type,time FROM Products WHERE name LIKE ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, "%" + keyword + "%");
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                	 int id = rs.getInt("id");
-                     String name = rs.getString("name");
-                     String description = rs.getString("description");
-                     int price = rs.getInt("price");
-                     String type = rs.getString("type");
-                     int time = rs.getInt("time");
-                     products.add(new Product(id, name, description, price, type, time));
-                }
-            }
-        }
-        return products;
-    }
-    
-    public void close() throws SQLException {
-        conn.close();
+    	String sql = "SELECT id, name, description, price, type, time FROM Products WHERE name LIKE '%" + keyword + "%'";
+    	return jdbcTemplate.query(sql, (rs, rowNum) ->
+        new Product(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getInt("price"),
+                rs.getString("type"),
+                rs.getInt("time")
+        		)
+        );
     }
 }
+    
+    
