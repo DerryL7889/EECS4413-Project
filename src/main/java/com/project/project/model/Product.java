@@ -8,14 +8,16 @@ public class Product {
     private Integer price;
     private String type;
     private Integer time;
+    private Integer shipping;
     
-    public Product(int id, String name, String description, int price, String type, int time) {
+    public Product(int id, String name, String description, int price, String type, int time, int shipping) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.type = type;
 		this.time = time;
+		this.shipping = shipping;
 		
 	}
 
@@ -66,4 +68,12 @@ public class Product {
     public void setTime(Integer time) {
         this.time = time;
     }
+
+	public Integer getShipping() {
+		return shipping;
+	}
+
+	public void setShipping(Integer shipping) {
+		this.shipping = shipping;
+	}
 }
