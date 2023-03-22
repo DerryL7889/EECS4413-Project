@@ -1,4 +1,4 @@
-package com.project.project.beans;
+package com.project.project.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

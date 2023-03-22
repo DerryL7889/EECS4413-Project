@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.project.project.beans.User;
-import com.project.project.data.LoginService;
+import com.project.project.model.User;
+import com.project.project.repository.LoginService;
 
 
 @Controller

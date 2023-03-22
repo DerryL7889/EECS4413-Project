@@ -1,4 +1,4 @@
-package com.project.project.data;
+package com.project.project.repository;
 
 import java.security.MessageDigest;
 import java.sql.PreparedStatement;
@@ -7,12 +7,13 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
+
+import com.project.project.model.User;
+import com.project.project.model.UserMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
-
-import com.project.project.beans.User;
-import com.project.project.beans.UserMapper;
 
 @Repository
 public class LoginService {

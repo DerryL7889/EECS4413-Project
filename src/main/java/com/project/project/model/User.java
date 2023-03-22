@@ -1,4 +1,4 @@
-package com.project.project.beans;
+package com.project.project.model;
 
 public class User {
 	private int id;
