@@ -17,7 +17,7 @@ public class CreateDatabase {
         Connection conn = null;
         try {
             // db parameters
-            String url = "jdbc:sqlite:./db/" + filename;
+            String url = "jdbc:sqlite:" + filename;
             // create a connection to the database
             conn = DriverManager.getConnection(url);
             
@@ -60,7 +60,7 @@ public class CreateDatabase {
 		try {
 			if(conn != null) {
 				 Statement stmt = conn.createStatement();
-				 stmt.execute(resetsql);
+				 //stmt.execute(resetsql);
 				 stmt.execute(createsql);
 				 System.out.println("A users table has been created.");
 			}
@@ -139,7 +139,7 @@ public class CreateDatabase {
     }
 	
 	public static void main(String[] args) {
-        Connection conn = connect("database.db");
+        Connection conn = connect("auction.db");
         createdb(conn);
         createtable(conn);
         inituser(conn);

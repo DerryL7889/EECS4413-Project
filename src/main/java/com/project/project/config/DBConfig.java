@@ -13,7 +13,7 @@ public class DBConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
-        dataSource.setUrl("jdbc:sqlite:database.db");
+        dataSource.setUrl("jdbc:sqlite:auction.db");
         return dataSource;
     }
 
