@@ -30,13 +30,10 @@ public class auctionController {
 		model.addAttribute("product", product);
 		
 		if(product.getType().equals("forward")) {
-		System.out.println(product.getShipping());
-		
-		
-		
 		return "forward-auction-view";
 		}
 		
+		System.out.println(product.getType());
 		return "dutch-auction-view";
 		
 		
