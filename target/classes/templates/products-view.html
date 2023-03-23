@@ -48,7 +48,16 @@
 
 </head>
 <body>
-	<h1>Catalougue</h1>
+	<h1>Catalogue</h1>
+	<div>
+		<form action="/products/search" method="GET">
+		
+		<div class="search-box">
+	    <button type="submit" class="btn-search">&#128269;</button>
+	    <input autocomplete="off" type="text" name="keyword" class="input-search" placeholder="Type to Search...">
+	 	 </div>
+		</form>
+	</div>
 	<form action="bidPage">
 		<table>
 			<thead>
@@ -74,6 +83,7 @@
 		</table>
 		<input type="submit" value="BID" />
 	</form>
+	
 </body>
 </html>
 

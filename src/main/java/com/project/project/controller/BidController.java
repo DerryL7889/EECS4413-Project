@@ -18,12 +18,13 @@ import com.project.project.repository.ProductRepository;
 import jakarta.annotation.PreDestroy;
 
 @Controller
-public class auctionController {
+public class BidController {
 	
 	@Autowired
     private ProductRepository productRepo;
 	
-	@GetMapping({"*/bidPage", "/bidPage"})
+	@GetMapping("*/bidPage")
+    
 	public String bidPage(@RequestParam int selectedProduct, Model model) throws SQLException {
 		Product product = productRepo.getProductById(selectedProduct);
         System.out.println(product.getName());
