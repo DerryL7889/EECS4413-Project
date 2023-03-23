@@ -23,8 +23,7 @@ public class auctionController {
 	@Autowired
     private ProductRepository productRepo;
 	
-	@GetMapping("*/bidPage")
-    
+	@GetMapping({"*/bidPage", "/bidPage"})
 	public String bidPage(@RequestParam int selectedProduct, Model model) throws SQLException {
 		Product product = productRepo.getProductById(selectedProduct);
         System.out.println(product.getName());
