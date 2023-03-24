@@ -3,28 +3,71 @@
 <head>
 	<title>Product List</title>
 	<style>
-	table {
-		border-collapse: collapse;
-		width: 100%;
-		margin-bottom: 20px;
-	}
-	th, td {
-		text-align: left;
-		padding: 8px;
-		border: 1px solid #555; /*change border color*/
-		color: #ddd; /*change text color*/
-	}
-	th {
-		background-color: #333; /*change header background color*/
-		font-weight: normal;
-	}
-	tr:hover {
-		background-color: #444; /*change hover background color*/
-	}
+	h1{
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+}
+table{
+  width:100%;
+  table-layout: fixed;
+}
+.tbl-header{
+  background-color: rgba(255,255,255,0.3);
+ }
+.tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+  text-transform: uppercase;
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #fff;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+body{
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  font-family: 'Roboto', sans-serif;
+}
+section{
+  margin: 50px;
+}
+
+
+
+		::-webkit-scrollbar {
+		    width: 6px;
+		} 
+		::-webkit-scrollbar-track {
+		    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+		} 
+		::-webkit-scrollbar-thumb {
+		    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+		}
+
 	input[type=submit] {
-		background-color: #444; /*change button background color*/
+		background-color: #eee; /*change button background color*/
 		border: none;
-		color: white;
+		color: #333; /*change button text color*/
 		padding: 10px 20px;
 		text-align: center;
 		text-decoration: none;
@@ -33,55 +76,130 @@
 		margin: 4px 2px;
 		cursor: pointer;
 	}
-	body {
-		background: linear-gradient(110deg, #1D1F1D, green);
-		color: #ddd; /*change body text color*/
-	}
+
 	
 	input[type=submit]:hover {
-  background-color: #32CD32;
-  box-shadow: 0px 0px 20px #32CD32;
-  transition: 0.5s;
+		background-color: rgb(66, 220, 231);
+		box-shadow: 0px 0px 30px rgb(13, 243, 232);
+		transition: 0.5s;
+		color: rgb(7, 10, 5); /*change button text color on hover*/
+	}
+	
+	*{
+  box-sizing: border-box;
 }
+	
+	.search-box{
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search{
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all .5s ease-in-out;
+  background-color: #25b7c4;
+  padding-right: 40px;
+  color:#fff;
+}
+.input-search::placeholder{
+  color:rgba(255,255,255,.5);
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 100;
+}
+.btn-search{
+  width: 50px;
+  height: 50px;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color:#ffffff ;
+  background-color:transparent;
+  pointer-events: painted;  
+}
+.btn-search:focus ~ .input-search{
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+.input-search:focus{
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+	
+	
+
 
 </style>
 
+
 </head>
 <body>
-	<h1>Catalogue</h1>
-	<div>
+	
+	
+		<section>
+  <!--for demo wrap-->
+  <h1>Catalogue</h1>
+  <div>
 		<form action="/products/search" method="GET">
 		
 		<div class="search-box">
 	    <button type="submit" class="btn-search">&#128269;</button>
-	    <input autocomplete="off" type="text" name="keyword" class="input-search" placeholder="Type to Search...">
+		    <input autocomplete="off" type="text" name="keyword" class="input-search" placeholder="Type to Search...">
+	    
 	 	 </div>
 		</form>
+  
+		<form action="bidPage">
 	</div>
-	<form action="bidPage">
-		<table>
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Current Price</th>
-					<th>Auction Type</th>
-					<th class="time-remaining">Time Remaining</th>
-					<th>Select</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- Use th:each instead of c:forEach for HTML pages -->
-				<!-- Use th:text instead of ${} for HTML pages -->
-				<tr th:each="product : ${products}">
-					<td th:text="${product.name}"></td>
-					<td th:text="${product.price}"></td>
+  <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Current Price</th>
+          <th>Auction Type</th>
+          <th>Time Remaining</th>
+          <th>Select </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr th:each="product : ${products}">
+          <td th:text="${product.name}"></td>
+					<td th:text="${#numbers.formatCurrency(product.price)}"></td>
 					<td th:text="${product.type}"></td>
 					<td class="time-remaining" th:text="${product.time}"></td>
 					<td><input type="radio" th:name="'selectedProduct'" th:value="${product.id}" /></td>
-				</tr>
-			</tbody>
-		</table>
-		<input type="submit" value="BID" />
+        </tr>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+  <input type="submit" value="BID" />
+</section>
+		
 	</form>
 	
 </body>

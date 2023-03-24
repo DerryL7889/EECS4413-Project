@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.project.project.model.Product;
 import com.project.project.repository.ProductRepository;
 
@@ -23,7 +24,7 @@ public class BidController {
 	@Autowired
     private ProductRepository productRepo;
 	
-	@GetMapping("*/bidPage")
+	@GetMapping({"*/bidPage", "/bidPage"})
     
 	public String bidPage(@RequestParam int selectedProduct, Model model) throws SQLException {
 		Product product = productRepo.getProductById(selectedProduct);
