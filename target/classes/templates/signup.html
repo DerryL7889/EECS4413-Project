@@ -1,32 +1,236 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>Sign Up</title>
-</head>
-<body>
-	<h2>Sign Up</h2>
-	<form method="POST" action="/signup">
-		<label for="firstname">First Name:</label><br>
-		<input type="text" id="firstname" name="firstname"><br>
-		<label for="lastname">Last Name:</label><br>
-		<input type="text" id="lastname" name="lastname"><br>
-		<label for="username">Username:</label><br>
-		<input type="text" id="username" name="username"><br>
-		<label for="passhash">Password:</label><br>
-		<input type="password" id="passhash" name="passhash"><br>
-		<label for="address">Address:</label><br>
-		<input type="text" id="address.address" name="address.address"><br>
-		<label for="postalcode">Postal Code:</label><br>
-		<input type="text" id="address.postalcode" name="address.postalcode"><br>
-		<label for="city">City:</label><br>
-		<input type="text" id="address.city" name="address.city"><br>
-		<label for="province">Province:</label><br>
-		<input type="text" id="address.province" name="address.province"><br>
-		<label for="country">Country:</label><br>
-		<input type="text" id="address.country" name="address.country"><br>
-		
-		<input type="submit" value="Submit">
-	</form>
-</body>
+
+
+<!DOCTYPE html>
+
 </html>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;	
+	font-family: Raleway, sans-serif;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+body{
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+}
+
+.screen {		
+	background: linear-gradient(90deg, #1D1F1D, rgb(105, 197, 201));		
+	position: relative;	
+	height: 1000px;
+	width: 360px;	
+	box-shadow: 0px 0px 24px #000000;
+}
+
+.screen__content {
+	z-index: 1;
+	position: relative;	
+	height: 100%;
+}
+
+.screen__background {		
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+	-webkit-clip-path: inset(0 0 0 0);
+	clip-path: inset(0 0 0 0);	
+}
+
+.screen__background__shape {
+	transform: rotate(45deg);
+	position: absolute;
+}
+
+.screen__background__shape1 {
+	height: 520px;
+	width: 520px;
+	background: rgb(37, 81, 84);	
+	top: -50px;
+	right: 120px;	
+	border-radius: 0 72px 0 0;
+}
+
+.screen__background__shape2 {
+	height: 220px;
+	width: 220px;
+	background: rgb(22, 91, 93);	
+	top: -172px;
+	right: 0;	
+	border-radius: 32px;
+}
+
+.screen__background__shape3 {
+	height: 540px;
+	width: 190px;
+	background: linear-gradient(270deg, #5D9E6A, rgb(85, 164, 161));
+	top: -24px;
+	right: 0;	
+	border-radius: 32px;
+}
+
+.screen__background__shape4 {
+	height: 400px;
+	width: 200px;
+	background: #A3CFA3;	
+	top: 420px;
+	right: 50px;	
+	border-radius: 60px;
+}
+
+.login {
+	width: 320px;
+	padding: 30px;
+	padding-top: 156px;
+}
+
+.login__field {
+	padding: 20px 0px;	
+	position: relative;	
+}
+
+.login__icon {
+	position: absolute;
+	top: 30px;
+	color: #8DC78D;
+}
+
+.login__input {
+	border: none;
+	border-bottom: 2px solid #D1D1D4;
+	background: none;
+	padding: 10px;
+	padding-left: 24px;
+	font-weight: 700;
+	width: 75%;
+	transition: .2s;
+	color: #E5E5E5;
+}
+
+.login__input:active,
+.login__input:focus,
+.login__input:hover {
+	outline: none;
+	border-bottom-color: rgb(108, 182, 199);
+}
+
+.login__submit {
+	background: #283E33;
+	font-size: 14px;
+	margin-top: 30px;
+	padding: 16px 20px;
+	border-radius: 26px;
+	border: 1px solid rgb(34, 93, 88);
+	text-transform: uppercase;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	color: rgb(0, 239, 207);
+	box-shadow: 0px 2px 2px rgb(3, 135, 139);
+	cursor: pointer;
+	transition: .2s;
+}
+
+.login__submit:active,
+.login__submit:focus,
+.login__submit:hover {
+
+    box-shadow: 0 0 10px rgb(0, 236, 192);
+
+	border-color: #6A679E;
+	outline: none;
+}
+
+.button__icon {
+	font-size: 24px;
+	margin-left: auto;
+	color: #7875B5;
+}
+
+
+
+</style>
+
+
+<title>Sign-Up</title>
+<div class="container">
+    <div class="screen">
+        
+        <div class="screen__content">
+			
+			
+			
+            <form class="login" action="/signup" method="POST">
+				
+                <div class="login__field">
+                    <input type="text" class="login__input" name="firstname" placeholder="First Name">
+                </div>
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="lastname" placeholder="Last Name">
+                </div>
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="username" placeholder="User Name">
+                </div>
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="passhash" placeholder="Password">
+                </div>
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="address.address" placeholder="Address">
+                </div>
+                
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="address.postalcode" placeholder="Postal Code">
+                </div>
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="address.city" placeholder="City">
+                </div>
+                
+                <div class="login__field">
+                    <input type="text" class="login__input" name="address.province" placeholder="Province">
+                </div>
+                
+                 <div class="login__field">
+                    <input type="text" class="login__input" name="address.country" placeholder="Country">
+                </div>
+                
+                
+                <button class="button login__submit">
+                    <span class="button__text">Sign Up</span>
+                   
+                </button>                
+            </form>
+        </div>
+        
+        
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>       
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>      
+    </div>
+</div>

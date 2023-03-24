@@ -9,8 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.project.model.Product;
@@ -46,7 +44,7 @@ public class PaymentController {
 	    return "payment-view";
 	}
 	
-	@RequestMapping(value = "/process-payment", method = RequestMethod.POST)
+	@PostMapping("/process-payment")
 	public String processPayment(ModelMap model, @RequestParam String creditCardNumber, @RequestParam String nameOnCard, @RequestParam String expirationDate, @RequestParam String securityCode, HttpSession session) {
 	    // Process payment here
 
