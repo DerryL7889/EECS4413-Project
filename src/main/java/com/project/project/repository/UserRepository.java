@@ -1,14 +1,17 @@
 package com.project.project.repository;
 
+import java.sql.SQLException;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.stereotype.Repository;
 
 import com.project.project.model.Address;
+import com.project.project.model.Product;
 import com.project.project.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 @Repository
@@ -71,5 +74,28 @@ public class UserRepository {
         }
     }
 
-
+    public User getUserById(Integer id) throws SQLException{
+        String sql = "SELECT * FROM Users WHERE userid = " + id;
+        try {
+        	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+        	new User(
+    	            rs.getInt("userid"),
+    	            rs.getString("first_name"),
+    	            rs.getString("last_name"),
+    	            rs.getString("username"),
+    	            rs.getString("password"),
+    	            new Address(
+    	                    rs.getString("address"),
+    	                    rs.getString("postalcode"),
+    	                    rs.getString("city"),
+    	                    rs.getString("province"),
+    	                    rs.getString("country")
+    	                ),
+    	            rs.getInt("created")
+    	        )
+    	    );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }

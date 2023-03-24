@@ -131,14 +131,15 @@
         </div>
         <div class="price-info">
             <p class = "dollar">Current Price: $<a th:text="${product.price} "></a><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
-            
         </div>
         <div class="bid-form">
-
-	    <input type="submit" value="Buy Now" />
-	
+            <form action="/payment" method="get">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <input type="submit" value="Buy Now">
+            </form>
         </div>
     </div>
 </body>
+
 </html>
 

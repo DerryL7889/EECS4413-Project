@@ -16,7 +16,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-
 @Repository
 public class ProductRepository {
 
@@ -29,7 +28,7 @@ public class ProductRepository {
     }
 
     public List<Product> getAllProducts() {
-        String sql = "SELECT id, name, description, price, type, time, shipping FROM Products";
+        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time FROM Products";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
         new Product(
                 rs.getInt("id"),
@@ -38,14 +37,15 @@ public class ProductRepository {
                 rs.getInt("price"),
                 rs.getString("type"),
                 rs.getInt("time"),
-                rs.getInt("shipping")
+                rs.getInt("shipping"),
+                rs.getInt("shipping_time")
         		)
         );
     }
 
     
     public List<Product> searchProducts(String keyword) throws SQLException {
-    	String sql = "SELECT id, name, description, price, type, time, shipping FROM Products WHERE name LIKE '%" + keyword + "%'";
+    	String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time FROM Products WHERE name LIKE '%" + keyword + "%'";
     	return jdbcTemplate.query(sql, (rs, rowNum) ->
         new Product(
                 rs.getInt("id"),
@@ -54,13 +54,14 @@ public class ProductRepository {
                 rs.getInt("price"),
                 rs.getString("type"),
                 rs.getInt("time"),
-                rs.getInt("shipping")
+                rs.getInt("shipping"),
+                rs.getInt("shipping_time")
         		)
         );
     }
     
     public Product getProductById(Integer id) throws SQLException{
-        String sql = "SELECT id, name, description, price, type, time, shipping FROM Products WHERE id = " + id;
+        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time FROM Products WHERE id = " + id;
         try {
         	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
             new Product(
@@ -70,7 +71,8 @@ public class ProductRepository {
                     rs.getInt("price"),
                     rs.getString("type"),
                     rs.getInt("time"),
-                    rs.getInt("shipping")
+                    rs.getInt("shipping"),
+                    rs.getInt("shipping_time")
             )
         );
         } catch (EmptyResultDataAccessException e) {

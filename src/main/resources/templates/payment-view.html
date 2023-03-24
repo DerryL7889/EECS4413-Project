@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payment Page</title>
+</head>
+<body>
+	<h1>Payment Page</h1>
+	<h3>Product ID</h3>
+	<p th:text="${product.id}"></p>
+
+	<h3>Product Name</h3>
+	<p th:text="${product.name}"></p>
+	<h3>Product Price</h3>
+	<p th:text="${productPrice}"></p>
+
+	<h3>Total Amount</h3>
+	<p th:text="${totalAmount}"></p>
+	<h3>User Address</h3>
+	<p th:text="${user.address}"></p>
+	<form action="/process-payment" method="post">
+		<h3>Payment Details</h3>
+		<label for="creditCardNumber">Credit Card Number</label>
+		<input type="text" id="creditCardNumber" name="creditCardNumber"><br>
+
+		<label for="nameOnCard">Name on Card</label>
+		<input type="text" id="nameOnCard" name="nameOnCard"><br>
+
+		<label for="expirationDate">Expiration Date</label>
+		<input type="text" id="expirationDate" name="expirationDate"><br>
+
+		<label for="securityCode">Security Code</label>
+		<input type="text" id="securityCode" name="securityCode"><br>
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>
