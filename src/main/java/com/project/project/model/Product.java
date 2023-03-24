@@ -9,8 +9,9 @@ public class Product {
     private String type;
     private Integer time;
     private Integer shipping;
+	private Integer shipping_time;
     
-    public Product(int id, String name, String description, int price, String type, int time, int shipping) {
+    public Product(int id, String name, String description, int price, String type, int time, int shipping, int shipping_time) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -18,6 +19,7 @@ public class Product {
 		this.type = type;
 		this.time = time;
 		this.shipping = shipping;
+		this.setShipping_time(shipping_time);
 		
 	}
 
@@ -75,5 +77,13 @@ public class Product {
 
 	public void setShipping(Integer shipping) {
 		this.shipping = shipping;
+	}
+
+	public Integer getShipping_time() {
+		return shipping_time;
+	}
+
+	public void setShipping_time(Integer shipping_time) {
+		this.shipping_time = shipping_time;
 	}
 }

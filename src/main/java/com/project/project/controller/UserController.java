@@ -29,14 +29,11 @@ public class UserController {
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String passhash, HttpServletRequest request){
-    	System.out.println(username + passhash);
+    public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String passhash, HttpSession session){
         User user = service.validateUser(username, passhash);
         if (user != null) {
-            request.getSession().setAttribute("userId", user.getId());
-            System.out.println(user.toString());
-            model.addAttribute("userId", user.getId());
-            return "redirect:/products";
+        	 session.setAttribute("user", user);
+        	 return "redirect:/products";
         }
         System.out.println("User not found");
         model.put("errorMessage", "Invalid Credentials");
@@ -59,7 +56,7 @@ public class UserController {
 	        userRepository.saveUser(user);
 	        // Add user ID to session
 	        session.setAttribute("userId", user.getId());
-	        return "redirect:/products";
+	        return "login";
 	    }
 }
 
