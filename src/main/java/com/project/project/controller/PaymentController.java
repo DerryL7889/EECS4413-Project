@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.project.model.Product;
 import com.project.project.model.User;
-import com.project.project.repository.PaymentRepository;
 import com.project.project.repository.ProductRepository;
 import com.project.project.repository.UserRepository;
 
@@ -27,10 +26,6 @@ public class PaymentController {
 	
 	@Autowired
     private UserRepository userRepo;
-	
-	@Autowired
-    private PaymentRepository paymentRepo;
-	
 
 	@GetMapping("/payment")
 	public String showPaymentPage(@RequestParam Integer productId, Model model, HttpSession session) throws SQLException {
@@ -52,7 +47,7 @@ public class PaymentController {
 	@PostMapping("/process-payment")
 	public String processPayment(ModelMap model, @RequestParam String creditCardNumber, @RequestParam String nameOnCard, @RequestParam String expirationDate, @RequestParam String securityCode, HttpSession session) {
 	    // Process payment here
-		paymentRepo.saveOrder((User) session.getAttribute("user"),(Product) session.getAttribute("product"), (double) session.getAttribute("totalAmount"));
+
 	    // Set attributes for receipt page
 	    model.addAttribute("product", (Product)session.getAttribute("product"));
 	    model.addAttribute("productPrice", session.getAttribute("productPrice"));
