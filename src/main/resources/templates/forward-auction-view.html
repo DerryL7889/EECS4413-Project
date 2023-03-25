@@ -127,7 +127,10 @@ input[type=submit]:hover {
     </style>
 
 
-
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/sockjs-client/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/stomp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/auctionApp.js}"></script>
 </head>
 <body>
     <div class="container">
@@ -137,12 +140,12 @@ input[type=submit]:hover {
             <p th:text="${product.description}"></p>
         </div>
         <div class="price-info">
-            <p>Current Price: <span class="dollar">$<a th:text="${product.price}"></a></span><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
-            <p>Highest Bidder: XXX</p>
+            <p>Current Price: <span class="dollar">$<a id="price-field" th:text="${product.price}"></a></span><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
+            <p>Highest Bidder: <a id="name-field" th:text="${product.name}"></a></p>
         </div>
         <div class="bid-form">
 	<h3>Place a Bid</h3>
-	<form method="post" action="/placeBid">
+	<form method="post"> <!-- action="/placeBid"> -->
 	    <input type="hidden" th:name="productId" th:value="${product.id}" />
 	    <input type="number" name="bidAmount" placeholder="Enter your bid amount" />
 	    <input type="submit" value="Submit Bid" />
