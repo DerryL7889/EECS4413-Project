@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Auction Page</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/sockjs-client/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/stomp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/auctionApp.js}"></script>
+</head>
+<body onload="connect()">
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
+Please enable Javascript and reload this page!</h2>
+</noscript>
+<h1 align = "center"> Auction for: </h1><h1 align = "center" th:text="${channel}"></h1>
+<div id="panel">
+	price:
+	<div id="price-field">price</div>
+	bidder:
+	<div id="name-field">name</div>
+</div>
+<form method="post">
+	username <input type="text" name="name" required/><br/>
+	price <input type="text" name="amount" required/><br/>
+	<!--item (this field should be hidden) <input type="text" name="channel" th:value="${channel}" required/><br/>-->
+	<input type="submit" value="Button!"/> 
+</form>
+</body>
