@@ -132,7 +132,7 @@ input[type=submit]:hover {
     <script th:src="@{/webjars/stomp-websocket/stomp.min.js}"></script>
     <script type="text/javascript" th:src="@{/auctionApp.js}"></script>
 </head>
-<body>
+<body onload="connect()">
     <div class="container">
         <div class="item-description">
            <h2 th:text="${product.name}"></h2>

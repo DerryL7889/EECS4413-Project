@@ -8,7 +8,7 @@ function connect() {
         console.log('Connected: ' + frame);
         //get channel info from getparams
         const url = new URL(window.location.toLocaleString());
-        var channel = url.searchParams.get('channel');
+        var channel = url.searchParams.get('selectedProduct');
         stompClient.subscribe('/updates/'+channel, function (auctionMessage) {
             //showGreeting(JSON.parse(greeting.body).content);
             var parsedMessage = JSON.parse(auctionMessage.body);

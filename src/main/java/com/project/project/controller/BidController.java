@@ -94,7 +94,7 @@ public class BidController {
 			  String name = user.getUsername();
 			  Product product = productRepo.getProductById(productIdInt);
 			  int originalBidAmount = product.getPrice();
-			  if (amount >= originalBidAmount) {
+			  if (amount > originalBidAmount) {
 		        // Update the product with the new bid amount
 				  productRepo.updateProductPrice(productIdInt, amount);
 				  System.out.println("your bid has been placed");
