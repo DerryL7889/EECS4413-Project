@@ -31,16 +31,16 @@ public class PaymentController {
 	public String showPaymentPage(@RequestParam Integer productId, Model model, HttpSession session) throws SQLException {
 	    Product product = productRepo.getProductById(productId);
 	    double productPrice = product.getPrice();
-	    double totalAmount = productPrice + 10.0;
+	    double totalAmount = productPrice + product.getShipping();
 	    User user = (User) session.getAttribute("user");
 	    session.setAttribute("product", product);
 	    session.setAttribute("productPrice", productPrice);
 	    session.setAttribute("totalAmount", totalAmount);
 	    model.addAttribute("productPrice", productPrice);
 	    model.addAttribute("totalAmount", totalAmount);
-	    System.out.println(user.getFirstname());
 	    model.addAttribute("product", product);
 	    model.addAttribute("user", user);
+	    System.out.println(user.getFirstname());
 	    return "payment-view";
 	}
 	

@@ -36,8 +36,8 @@ public class UserController {
         	 return "redirect:/products";
         }
         System.out.println("User not found");
-        model.put("errorMessage", "Invalid Credentials");
-        return "index";
+        model.put("errorMessage", "Invalid Credentials, try again");
+        return "login";
     }
 
 	@Autowired

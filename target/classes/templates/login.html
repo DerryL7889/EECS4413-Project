@@ -175,17 +175,22 @@ body{
             <form class="login" action="/login" method="POST">
                 <div class="login__field">
                     <i class="login__icon fas fa-user"></i>
-                    <input type="text" class="login__input" name="username" placeholder="User name / Email">
+                    <input type="text" class="login__input" name="username" placeholder="User name / Email" required>
                 </div>
                 <div class="login__field">
                     <i class="login__icon fas fa-lock"></i>
-                    <input type="password" class="login__input" name="passhash" placeholder="Password">
+                    <input type="password" class="login__input" name="passhash" placeholder="Password" required>
                 </div>
                 <button class="button login__submit">
                     <span class="button__text">Log In Now</span>
                     <i class="button__icon fas fa-chevron-right"></i>
                 </button>                
             </form>
+            
+            <div th:if="${errorMessage}" class="alert alert-danger text-center" role="alert" style="background-color:#f8d7da; padding:10px;">
+    <p th:text="${errorMessage}" style="color:red;"></p>
+</div>
+
         </div>
         
         
