@@ -24,7 +24,7 @@ public class AuctionController {
 	  @RequestMapping(value="/button", method = RequestMethod.POST)
 	  public String onButtonClick(ModelMap model){
 			  System.out.println("clicky");
-			  smtemplate.convertAndSend("/updates/testchannel", new AuctionMessage("bidder",15.00));
+			  smtemplate.convertAndSend("/updates/testchannel", new AuctionMessage("bidder",15));
 	    return "buttonpage";
 	  }
 	  
@@ -36,7 +36,7 @@ public class AuctionController {
 	  
 	  @RequestMapping(value="/auction", method = RequestMethod.POST)
 	  public String placeBid (ModelMap model, @RequestParam String name, @RequestParam String amount, @RequestParam String channel) {
-		  AuctionMessage am = new AuctionMessage(name,Double.parseDouble(amount));
+		  AuctionMessage am = new AuctionMessage(name,Integer.parseInt(amount));
 		  System.out.println(name + " " + amount);
 		  System.out.println("/updates/"+channel);
 		  smtemplate.convertAndSend("/updates/"+channel, am);

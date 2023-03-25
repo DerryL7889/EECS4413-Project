@@ -2,9 +2,9 @@ package com.project.project.model;
 
 public class AuctionMessage {
 	private String Bidder;
-	private double amount;
+	private int amount;
 	
-	public AuctionMessage(String bidder, double amount) {
+	public AuctionMessage(String bidder, int amount) {
 		this.setBidder(bidder);
 		this.setAmount(amount);
 	}
@@ -18,7 +18,7 @@ public class AuctionMessage {
 	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	
