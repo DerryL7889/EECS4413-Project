@@ -33,5 +33,5 @@ function updateAuction(name, price){
 	var name_field = document.getElementById('name-field');
 	var price_field = document.getElementById('price-field');
 	name_field.innerHTML = name;
-	price_field.innerHTML = "$" + price;
+	price_field.innerHTML = "" + price;
 }
