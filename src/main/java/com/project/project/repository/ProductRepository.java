@@ -95,6 +95,12 @@ public class ProductRepository {
 		
 	}
     
+	public void setEndTime(int productId, int time) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE Products SET time = ? WHERE id = ?";
+        jdbcTemplate.update(sql, time, productId);
+		
+	}
     
     		//deletes from data base when time runs out!!! let this be commented out till everything else works
     

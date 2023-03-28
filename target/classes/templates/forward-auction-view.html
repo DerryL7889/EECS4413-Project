@@ -137,12 +137,12 @@ input[type=submit]:hover {
     <div class="container">
         <div class="item-description">
            <h2 th:text="${product.name}"></h2>
-           <h3> Forward Auction </h3>
+           <h3> Forward Auction: <a id="time-field" class="time-remaining" th:text="${product.time}"> seconds remaining</a></h3>
             <p th:text="${product.description}"></p>
         </div>
         <div class="price-info">
             <p>Current Price: <span class="dollar">$<a id="price-field" th:text="${product.price}"></a></span><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
-            <p>Highest Bidder: <a id="name-field" th:text="${product.name}"></a></p>
+            <p>Highest Bidder: <a id="name-field" th:text="${product.highestBidder}"></a></p>
         </div>
         <div class="bid-form">
 	<h3>Place a Bid</h3>
