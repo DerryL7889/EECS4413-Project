@@ -22,17 +22,19 @@ public class ProductController {
     private ProductRepository productRepo;
     
     @GetMapping("/products")
-    public String showProducts(Model model) throws SQLException {
+    public String showProducts(@RequestParam String username, Model model) throws SQLException {
+    	
         List<Product> products = productRepo.getAllProducts();
-        System.out.println(products);
         model.addAttribute("products", products);
+        model.addAttribute("username", username);
         return "products-view";
     }
     
     @GetMapping("/products/search")
-    public String searchProducts(@RequestParam String keyword, Model model) throws SQLException {
+    public String searchProducts(@RequestParam String username,@RequestParam String keyword, Model model) throws SQLException {
         List<Product> products = productRepo.searchProducts(keyword);
         model.addAttribute("products", products);
+        model.addAttribute("username",username);
         return "products-view";
     }
 }

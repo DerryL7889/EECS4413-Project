@@ -28,7 +28,7 @@ public class ProductRepository {
     }
 
     public List<Product> getAllProducts() {
-        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, bidder FROM Products WHERE show = 1";
+        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, highest_bidder FROM Products";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
         new Product(
                 rs.getInt("id"),
@@ -39,31 +39,31 @@ public class ProductRepository {
                 rs.getInt("time"),
                 rs.getInt("shipping"),
                 rs.getInt("shipping_time"),
-                rs.getString("bidder")
+                rs.getString("highest_bidder")
         		)
         );
     }
 
     
     public List<Product> searchProducts(String keyword) throws SQLException {
-    	String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, bidder FROM Products WHERE name LIKE '%" + keyword + "%'";
+    	String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, highest_bidder FROM Products WHERE name LIKE '%" + keyword + "%'";
     	return jdbcTemplate.query(sql, (rs, rowNum) ->
-    	 new Product(
-                 rs.getInt("id"),
-                 rs.getString("name"),
-                 rs.getString("description"),
-                 rs.getInt("price"),
-                 rs.getString("type"),
-                 rs.getInt("time"),
-                 rs.getInt("shipping"),
-                 rs.getInt("shipping_time"),
-                 rs.getString("bidder")
-         )
+        new Product(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("description"),
+                rs.getInt("price"),
+                rs.getString("type"),
+                rs.getInt("time"),
+                rs.getInt("shipping"),
+                rs.getInt("shipping_time"),
+                rs.getString("highest_bidder")
+        		)
         );
     }
     
     public Product getProductById(Integer id) throws SQLException{
-        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, bidder FROM Products WHERE id = " + id;
+        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, highest_bidder FROM Products WHERE id = " + id;
         try {
         	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
             new Product(
@@ -75,7 +75,7 @@ public class ProductRepository {
                     rs.getInt("time"),
                     rs.getInt("shipping"),
                     rs.getInt("shipping_time"),
-                    rs.getString("bidder")
+                    rs.getString("highest_bidder")
             )
         );
         } catch (EmptyResultDataAccessException e) {
@@ -87,7 +87,20 @@ public class ProductRepository {
         String sql = "UPDATE Products SET price = ? WHERE id = ?";
         jdbcTemplate.update(sql, bidAmount, productId);
     }
+
+	public void setHighestBidder(int productId, String username) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE Products SET highest_bidder = ? WHERE id = ?";
+        jdbcTemplate.update(sql, username, productId);
+		
+	}
     
+	public void setEndTime(int productId, int time) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE Products SET time = ? WHERE id = ?";
+        jdbcTemplate.update(sql, time, productId);
+		
+	}
     
     public void updateProductBidder(int productId, String name) {
     	String sql = "UPDATE Products SET bidder = ? WHERE id = ?";

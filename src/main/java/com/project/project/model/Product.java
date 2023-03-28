@@ -10,9 +10,8 @@ public class Product {
     private Integer time;
     private Integer shipping;
 	private Integer shipping_time;
-	public String bidder;         	   							   		
-    
-    public Product(int id, String name, String description, int price, String type, int time, int shipping, int shipping_time, String bidder) {
+    private String highestBidder;
+    public Product(int id, String name, String description, int price, String type, int time, int shipping, int shipping_time, String highestBidder) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -21,18 +20,10 @@ public class Product {
 		this.time = time;
 		this.shipping = shipping;
 		this.setShipping_time(shipping_time);
-		this.setBidder(bidder);
+		this.highestBidder = highestBidder;
 		
 	}
     
-    public String getBidder() {
-    	return bidder;
-    }
-    
-
-    public void setBidder(String bidder) {
-    	this.bidder = bidder;
-    }
     
 	public int getId() {
         return id;
@@ -96,5 +87,13 @@ public class Product {
 
 	public void setShipping_time(Integer shipping_time) {
 		this.shipping_time = shipping_time;
+	}
+
+	public String getHighestBidder() {
+		return highestBidder;
+	}
+
+	public void setHighestBidder(String highestBidder) {
+		this.highestBidder = highestBidder;
 	}
 }

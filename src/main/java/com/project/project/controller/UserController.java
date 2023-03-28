@@ -31,9 +31,11 @@ public class UserController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String passhash, HttpSession session){
         User user = service.validateUser(username, passhash);
+        
         if (user != null) {
         	 session.setAttribute("user", user);
-        	 return "redirect:/products";
+        	 System.out.println("Sucessful login");
+        	 return "redirect:/products?username=" + user.getUsername();
         }
         System.out.println("User not found");
         model.put("errorMessage", "Invalid Credentials, try again");
@@ -51,12 +53,17 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(@ModelAttribute User user, HttpSession session) {
+	public String signup(ModelMap model, @ModelAttribute User user, HttpSession session) {
 	        // Save user to database
-	        userRepository.saveUser(user);
+	        User saved = userRepository.saveUser(user);
 	        // Add user ID to session
-	        session.setAttribute("userId", user.getId());
-	        return "login";
+	        if(saved != null) {
+	        	session.setAttribute("userId", user.getId());
+	        	return "redirect:/products?username=" + user.getUsername();
+	        }else{
+	        	model.put("errorMessage", "User already exists, try again");
+	        	return "signup";
+	        }
 	    }
 } 
 

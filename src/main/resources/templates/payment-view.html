@@ -115,13 +115,15 @@ input[type=submit]:hover {
     <div id="container">
       <div id="left">
         <h1>Winning Bidder</h1>
-        <form action="/process-payment" method="post">
-          <label for="first-name">First Name</label>
-          <p th:text="${fname}"></p>
+        <form method="get" action="/process-payment">
+        	
+                <input type="hidden" name="username" th:value="${user.username}" />
+                <input type="hidden" name="selectedProduct" th:value="${product.id}" />
+                <input type="hidden" name="productId" th:value="${product.id}" />
+          <label for="first-name"><p th:text="${user.firstname}"></label>
           
 
-          <label for="last-name">Last Name</label>
-          <p th:text="${lname}"></p>
+          <label for="last-name"><p th:text="${user.lastname}"></label>
           
 
 	         <label for="name">Address</label>

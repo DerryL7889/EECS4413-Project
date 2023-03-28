@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.project.model.Payment;
 import com.project.project.model.Product;
 import com.project.project.model.User;
+import com.project.project.repository.PaymentRepository;
 import com.project.project.repository.ProductRepository;
 import com.project.project.repository.UserRepository;
 
@@ -25,44 +27,38 @@ public class PaymentController {
     private ProductRepository productRepo;
 	
 	@Autowired
+    private PaymentRepository paymentRepo;
+	
+	@Autowired
     private UserRepository userRepo;
 
 	@GetMapping("/payment")
-	public String showPaymentPage(@RequestParam Integer productId, Model model, HttpSession session) throws SQLException {
-		
-	    Product product = productRepo.getProductById(productId);
-	    
-	    int productPrice = product.getPrice();
-	    int totalAmount = productPrice + product.getShipping();
-	    
-	    User user = (User) session.getAttribute("user");
-	    
-	    String fname = user.getFirstname();
-	    String lname = user.getLastname();
-	    String address = user.getAddress().toString();
-	    System.out.println("lname" + lname);
-	    
-	    session.setAttribute("product", product);	   
-	    session.setAttribute("totalAmount", totalAmount);
-	    
-	    model.addAttribute("totalAmount", totalAmount);
-	    model.addAttribute("fname", fname);
-	    model.addAttribute("lname", lname);
-	    model.addAttribute("address", address);
-	    System.out.println(user.getFirstname());
-	    return "payment-view";
+	public String showPaymentPage(@RequestParam String username, @RequestParam Integer selectedProduct, Model model) throws SQLException {
+		 Product product = productRepo.getProductById(selectedProduct);
+		    double productPrice = product.getPrice();
+		    double totalAmount = productPrice + product.getShipping();
+		    User user = userRepo.findByUsername(username);
+		    System.out.println("In showPaymentPage" + user.getFirstname());
+		    model.addAttribute("productPrice", productPrice);
+		    model.addAttribute("totalAmount", totalAmount);
+		    model.addAttribute("selectedProduct", selectedProduct);
+		    model.addAttribute("user", user);
+		    model.addAttribute("product", product);
+		    return "payment-view";
 	}
 	
-	@PostMapping("/process-payment")
-	public String processPayment(ModelMap model, @RequestParam String creditCardNumber, @RequestParam String nameOnCard, @RequestParam String expirationDate, @RequestParam String securityCode, HttpSession session) {
-	    // Process payment here
-
-	    // Set attributes for receipt page
-	    model.addAttribute("product", (Product)session.getAttribute("product"));
-	    model.addAttribute("productPrice", session.getAttribute("productPrice"));
-	    model.addAttribute("totalAmount", session.getAttribute("totalAmount"));
-	    model.addAttribute("user", session.getAttribute("user"));
-
+	@GetMapping("/process-payment")
+	public String processPayment(ModelMap model,@RequestParam String username, @RequestParam("productId") Integer productId,HttpSession session) throws SQLException {
+		Product product = productRepo.getProductById(productId);
+		double productPrice = product.getPrice();
+	    double totalAmount = productPrice + product.getShipping();
+		User user = userRepo.findByUsername(username);
+		System.out.println(user.getFirstname());
+		paymentRepo.saveOrder(user, product, totalAmount);
+	    model.addAttribute("product", product);
+	    model.addAttribute("productPrice", productPrice);
+	    model.addAttribute("totalAmount", totalAmount);
+	    model.addAttribute("user", user);
 	    return "receipt-view";
 	}
 }
