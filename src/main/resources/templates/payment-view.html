@@ -117,16 +117,19 @@ input[type=submit]:hover {
         <h1>Winning Bidder</h1>
         <form action="/process-payment" method="post">
           <label for="first-name">First Name</label>
+          <p th:text="${fname}"></p>
           
 
           <label for="last-name">Last Name</label>
+          <p th:text="${lname}"></p>
           
 
 	         <label for="name">Address</label>
-	         <p th:text="${user.address}"></p>
+	         <p th:text="${address}"></p>
+	         
 
-          <label for="total-cost">Total Cost</label>
-          
+          <label for="total-cost">Total Cost</label>        
+		  <p>$<a th:text="${totalAmount}"></a></p>
 
           
         

@@ -28,7 +28,7 @@ public class ProductRepository {
     }
 
     public List<Product> getAllProducts() {
-        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time FROM Products";
+        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, bidder FROM Products WHERE show = 1";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
         new Product(
                 rs.getInt("id"),
@@ -38,30 +38,32 @@ public class ProductRepository {
                 rs.getString("type"),
                 rs.getInt("time"),
                 rs.getInt("shipping"),
-                rs.getInt("shipping_time")
+                rs.getInt("shipping_time"),
+                rs.getString("bidder")
         		)
         );
     }
 
     
     public List<Product> searchProducts(String keyword) throws SQLException {
-    	String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time FROM Products WHERE name LIKE '%" + keyword + "%'";
+    	String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, bidder FROM Products WHERE name LIKE '%" + keyword + "%'";
     	return jdbcTemplate.query(sql, (rs, rowNum) ->
-        new Product(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getString("description"),
-                rs.getInt("price"),
-                rs.getString("type"),
-                rs.getInt("time"),
-                rs.getInt("shipping"),
-                rs.getInt("shipping_time")
-        		)
+    	 new Product(
+                 rs.getInt("id"),
+                 rs.getString("name"),
+                 rs.getString("description"),
+                 rs.getInt("price"),
+                 rs.getString("type"),
+                 rs.getInt("time"),
+                 rs.getInt("shipping"),
+                 rs.getInt("shipping_time"),
+                 rs.getString("bidder")
+         )
         );
     }
     
     public Product getProductById(Integer id) throws SQLException{
-        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time FROM Products WHERE id = " + id;
+        String sql = "SELECT id, name, description, price, type, time, shipping, shipping_time, bidder FROM Products WHERE id = " + id;
         try {
         	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
             new Product(
@@ -72,7 +74,8 @@ public class ProductRepository {
                     rs.getString("type"),
                     rs.getInt("time"),
                     rs.getInt("shipping"),
-                    rs.getInt("shipping_time")
+                    rs.getInt("shipping_time"),
+                    rs.getString("bidder")
             )
         );
         } catch (EmptyResultDataAccessException e) {
@@ -86,18 +89,26 @@ public class ProductRepository {
     }
     
     
+    public void updateProductBidder(int productId, String name) {
+    	String sql = "UPDATE Products SET bidder = ? WHERE id = ?";
+    	jdbcTemplate.update(sql, name, productId);
+    }
+    
+    
     		//deletes from data base when time runs out!!! let this be commented out till everything else works
     
-//    @Scheduled(fixedRate = 1000)
-//    public void updateProductTimes() {
-//        String sql = "UPDATE Products SET time = time - 1 WHERE time > 0";
-//        int rowsAffected = jdbcTemplate.update(sql);
-//        System.out.println("Number of rows updated: " + rowsAffected);
-//
-//        String deleteSql = "DELETE FROM Products WHERE time = 0";
-//        rowsAffected = jdbcTemplate.update(deleteSql);
-//        System.out.println("Number of rows deleted: " + rowsAffected);
-//    }
+    @Scheduled(fixedRate = 1000)
+   public void updateProductTimes() {
+ 	String sql = "UPDATE Products SET time = time - 1 WHERE time > 0 AND type = 'forward'";
+        int rowsAffected = jdbcTemplate.update(sql);
+     System.out.println("Number of rows updated: " + rowsAffected);
+    
+      String sql2 = "UPDATE Products SET show = 0 WHERE time = 0 AND type = 'forward'";
+     rowsAffected = jdbcTemplate.update(sql2);
+      System.out.println("Number of rows updated: " + rowsAffected);
+  }
+
+    
     
     
     }

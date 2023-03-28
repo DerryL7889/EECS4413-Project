@@ -58,5 +58,5 @@ public class UserController {
 	        session.setAttribute("userId", user.getId());
 	        return "login";
 	    }
-}
+} 
 

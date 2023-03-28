@@ -29,17 +29,26 @@ public class PaymentController {
 
 	@GetMapping("/payment")
 	public String showPaymentPage(@RequestParam Integer productId, Model model, HttpSession session) throws SQLException {
+		
 	    Product product = productRepo.getProductById(productId);
-	    double productPrice = product.getPrice();
-	    double totalAmount = productPrice + product.getShipping();
+	    
+	    int productPrice = product.getPrice();
+	    int totalAmount = productPrice + product.getShipping();
+	    
 	    User user = (User) session.getAttribute("user");
-	    session.setAttribute("product", product);
-	    session.setAttribute("productPrice", productPrice);
+	    
+	    String fname = user.getFirstname();
+	    String lname = user.getLastname();
+	    String address = user.getAddress().toString();
+	    System.out.println("lname" + lname);
+	    
+	    session.setAttribute("product", product);	   
 	    session.setAttribute("totalAmount", totalAmount);
-	    model.addAttribute("productPrice", productPrice);
+	    
 	    model.addAttribute("totalAmount", totalAmount);
-	    model.addAttribute("product", product);
-	    model.addAttribute("user", user);
+	    model.addAttribute("fname", fname);
+	    model.addAttribute("lname", lname);
+	    model.addAttribute("address", address);
 	    System.out.println(user.getFirstname());
 	    return "payment-view";
 	}

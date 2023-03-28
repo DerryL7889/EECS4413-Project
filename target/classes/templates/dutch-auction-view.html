@@ -138,10 +138,12 @@ input[type=submit]:hover {
            <p>Current Price: <span class="dollar">$<a th:text="${product.price}"></a></span><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
         </div>
         <div class="bid-form">
+			
             <form action="/payment" method="get">
                 <input type="hidden" name="productId" th:value="${product.id}">
                 <input type="submit" value="Buy Now">
             </form>
+            
         </div>
     </div>
 </body>

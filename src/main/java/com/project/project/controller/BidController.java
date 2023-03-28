@@ -43,9 +43,11 @@ public class BidController {
 		
 		try {
 			User user = (User) session.getAttribute("user");
+			model.addAttribute("user", user);
 		}catch(Exception e) {
 			return "redirect:/";
 		}
+		
 		
 		if(product.getType().equals("forward")) {
 		return "forward-auction-view";
@@ -97,6 +99,7 @@ public class BidController {
 			  if (amount > originalBidAmount) {
 		        // Update the product with the new bid amount
 				  productRepo.updateProductPrice(productIdInt, amount);
+				  productRepo.updateProductBidder(productIdInt, user.getFirstname());
 				  System.out.println("your bid has been placed");
 				  //create and broadcast auction message
 				  AuctionMessage am = new AuctionMessage(name,amount);

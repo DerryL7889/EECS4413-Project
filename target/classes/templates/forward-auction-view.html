@@ -141,7 +141,7 @@ input[type=submit]:hover {
         </div>
         <div class="price-info">
             <p>Current Price: <span class="dollar">$<a id="price-field" th:text="${product.price}"></a></span><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
-            <p>Highest Bidder: <a id="name-field" th:text="${product.name}"></a></p>
+            <p>Highest Bidder: <a id="name-field" th:text="${product.bidder}"></a></p>
         </div>
         <div class="bid-form">
 	<h3>Place a Bid</h3>
@@ -150,8 +150,7 @@ input[type=submit]:hover {
 	    <input type="number" name="bidAmount" placeholder="Enter your bid amount" />
 	    <input type="submit" value="Submit Bid" />
 	</form>
-        </div>
+        </div> 
     </div>
 </body>
 </html>
-
