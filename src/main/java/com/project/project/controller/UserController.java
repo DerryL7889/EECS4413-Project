@@ -31,9 +31,11 @@ public class UserController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String passhash, HttpSession session){
         User user = service.validateUser(username, passhash);
+        
         if (user != null) {
         	 session.setAttribute("user", user);
-        	 return "redirect:/products";
+        	 System.out.println("Sucessful login");
+        	 return "redirect:/products?username=" + user.getUsername();
         }
         System.out.println("User not found");
         model.put("errorMessage", "Invalid Credentials, try again");

@@ -1,3 +1,4 @@
+
 var stompClient = null;
 
 function connect() {

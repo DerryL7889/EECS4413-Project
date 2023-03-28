@@ -152,58 +152,50 @@ section{
 
 </head>
 <body>
-	
-	
-		<section>
-  <!--for demo wrap-->
-  <h1>Catalogue</h1>
-  <div>
-		<form action="/products/search" method="GET">
-		
-		<div class="search-box">
-	    <button type="submit" class="btn-search">&#128269;</button>
-		    <input autocomplete="off" type="text" name="keyword" class="input-search" placeholder="Type to Search...">
-	    
-	 	 </div>
-		</form>
-  
-		<form action="bidPage">
-	</div>
-  <div class="tbl-header">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Current Price</th>
-          <th>Auction Type</th>
-          <th>Time Remaining</th>
-          <th>Select </th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-  <div class="tbl-content">
-    <table cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr th:each="product : ${products}">
-          <td th:text="${product.name}"></td>
-					<td th:text="${#numbers.formatCurrency(product.price)}"></td>
-					<td th:text="${product.type}"></td>
-					<td class="time-remaining" th:text="${product.time}"></td>
-					<td><input type="radio" th:name="'selectedProduct'" th:value="${product.id}" /></td>
-        </tr>
-        </tr>
-      </tbody>
-    </table>
-    
-  </div>
-  <input type="submit" value="BID" />
-</section>
-		
-	</form>
-	
-</body>
-</html>
+    <section>
+        <!--for demo wrap-->
+        <h1>Catalogue</h1>
+        <div>
+            <form th:action="@{/products/search}" method="GET">
+                <input type="hidden" name="username" th:value="${username}" />
+                <div class="search-box">
+                    <button type="submit" class="btn-search">&#128269;</button>
+                    <input autocomplete="off" type="text" name="keyword" class="input-search" placeholder="Type to Search...">
+                </div>
+            </form>
+
+            <form th:action="@{/bidPage}" method="GET">
+                <input type="hidden" name="username" th:value="${username}" />
+        </div>
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Current Price</th>
+                        <th>Auction Type</th>
+                        <th>Time Remaining</th>
+                        <th>Select </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tbl-content">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${#numbers.formatCurrency(product.price)}"></td>
+                        <td th:text="${product.type}"></td>
+                        <td class="time-remaining" th:text="${product.time}"></td>
+                        <td><input type="radio" th:name="selectedProduct" th:value="${product.id}" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="submit" value="BID" />
+        </form>
+    </section>
 
     <script>
         // Select all time remaining cells
@@ -219,3 +211,5 @@ section{
             });
         }, 1000);
     </script>
+</body>
+</html>

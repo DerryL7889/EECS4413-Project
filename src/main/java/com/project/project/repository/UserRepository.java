@@ -98,4 +98,33 @@ public class UserRepository {
             return null;
         }
     }
+
+
+	public User findByUsername(String username) {
+		// TODO Auto-generated method stub
+		
+		String sql = "SELECT * FROM users WHERE username = '" + username + "'";
+		        try {
+		        	return jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+		        	new User(
+		    	            rs.getInt("userid"),
+		    	            rs.getString("first_name"),
+		    	            rs.getString("last_name"),
+		    	            rs.getString("username"),
+		    	            rs.getString("password"),
+		    	            new Address(
+		    	                    rs.getString("address"),
+		    	                    rs.getString("postalcode"),
+		    	                    rs.getString("city"),
+		    	                    rs.getString("province"),
+		    	                    rs.getString("country")
+		    	                ),
+		    	            rs.getInt("created")
+		    	        )
+		    	    );
+		        } catch (EmptyResultDataAccessException e) {
+		            return null;
+		        }
+		    
+	}
 }

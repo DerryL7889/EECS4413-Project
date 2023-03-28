@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.project.model.AuctionMessage;
+import com.project.project.model.Bid;
 import com.project.project.model.Product;
 import com.project.project.model.User;
+import com.project.project.repository.BidRepository;
 import com.project.project.repository.ProductRepository;
 import com.project.project.repository.UserRepository;
 
 import jakarta.annotation.PreDestroy;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -36,17 +39,19 @@ public class BidController {
 	@Autowired
 	private SimpMessagingTemplate smtemplate;
 	
+	@Autowired
+	private BidRepository bidRepo;
+	
 	@RequestMapping(value="/bidPage", method = RequestMethod.GET)
-	public String bidPage(@RequestParam int selectedProduct, Model model, HttpSession session) throws SQLException {
+	public String bidPage(@RequestParam("username") String username, @RequestParam Integer selectedProduct, Model model, HttpSession session) throws SQLException {
 		Product product = productRepo.getProductById(selectedProduct);
 		model.addAttribute("product", product);
-		
-		try {
-			User user = (User) session.getAttribute("user");
-		}catch(Exception e) {
-			return "redirect:/";
-		}
-		
+		//model.addAttribute("username",username);
+		String name = bidRepo.getHighestBidderbyProductId(selectedProduct);
+		User user = userRepo.findByUsername(username);
+		model.addAttribute("name",name);
+		model.addAttribute("user", user);
+		model.addAttribute("username",username);
 		if(product.getType().equals("forward")) {
 		return "forward-auction-view";
 		}
@@ -82,21 +87,21 @@ public class BidController {
 //	    return "forward-auction-view";
 //	}
 
-	  @RequestMapping(value="/bidPage", method = RequestMethod.POST)
-	  public String placeBid (ModelMap model, @RequestParam String productId, @RequestParam String bidAmount, @RequestParam int selectedProduct, HttpSession session) {
+	  @RequestMapping(value="/placeBid", method = RequestMethod.POST)
+	  public String placeBid (ModelMap model,@RequestParam String username, @RequestParam String productId, @RequestParam String bidAmount, @RequestParam int selectedProduct, HttpSession session) {
 		  try {
 			  System.out.println(productId  + " " + bidAmount + " " + selectedProduct);
 			  int productIdInt = Integer.parseInt(productId);
 			  //int userIdInt = Integer.parseInt(userId);
 			  int amount = Integer.parseInt(bidAmount);
-			  
-			  User user = (User) session.getAttribute("user");//userRepo.getUserById(userIdInt);
-			  String name = user.getUsername();
+			 
+			  String name = username;
 			  Product product = productRepo.getProductById(productIdInt);
 			  int originalBidAmount = product.getPrice();
 			  if (amount > originalBidAmount) {
 		        // Update the product with the new bid amount
 				  productRepo.updateProductPrice(productIdInt, amount);
+				  productRepo.setHighestBidder(productIdInt, username);
 				  System.out.println("your bid has been placed");
 				  //create and broadcast auction message
 				  AuctionMessage am = new AuctionMessage(name,amount);
@@ -111,13 +116,11 @@ public class BidController {
 		  }catch (Exception e){
 			  System.out.println(e.getMessage());
 		  }
-		  return "redirect:/bidPage?selectedProduct="+selectedProduct;
+		  
+		  return "redirect:/bidPage?username=" + username + "&selectedProduct="+selectedProduct;
 		}
 	
 		
 	
 	
  }
-	
-
-

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -145,7 +146,10 @@ input[type=submit]:hover {
         </div>
         <div class="bid-form">
 	<h3>Place a Bid</h3>
-	<form method="post"> <!-- action="/placeBid"> -->
+	<form action="/placeBid" method="post"> <!-- action="/placeBid"> -->
+		
+		<input type="hidden" name="username" th:value="${username}"/>
+	    <input type="hidden" th:name="selectedProduct" th:value="${product.id}" />
 	    <input type="hidden" th:name="productId" th:value="${product.id}" />
 	    <input type="number" name="bidAmount" placeholder="Enter your bid amount" />
 	    <input type="submit" value="Submit Bid" />
@@ -154,4 +158,3 @@ input[type=submit]:hover {
     </div>
 </body>
 </html>
-
