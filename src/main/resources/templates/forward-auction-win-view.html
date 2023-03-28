@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Bidding Page</title>
+   <style>
+        /* Set global font and color styles */
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+body{
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Style the container for the item description, price info, and bid form */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px;
+    background: linear-gradient(to left, #25c481, #25b7c4);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Style the item description section */
+.item-description {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* Style the item name */
+.item-description h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+/* Style the item description text */
+.item-description p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Style the price info section */
+.price-info {
+    width: calc(50% - 10px);
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: linear-gradient(to left, #25c481, rgb(174, 223, 236));
+}
+
+/* Style the current price and highest bidder text */
+.price-info p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Style the bid form section */
+.bid-form {
+    width: calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: linear-gradient(to right, #25c481, rgb(174, 223, 236));
+}
+
+/* Style the bid form title */
+.bid-form h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Style the bid form input fields */
+.bid-form input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: #222;
+    background-color: #fff;
+}
+
+/* Style the bid form submit button */
+input[type=submit] {
+    background-color: #25c481; /* change button background color */
+    border: 1px solid #ccc;
+    color: #222;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+input[type=submit]:hover {
+    background-color: #25b7c4;
+    color: #fff;
+    box-shadow: 0px 0px 20px #25b7c4;
+    transition: 0.5s;
+}
+
+.dollar {
+    color: rgb(10, 168, 9);
+}
+
+      
+        
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="item-description">
+           <h2 th:text="${product.name}"></h2>
+           <h3> Forward Auction: Won! </h3>
+            <p th:text="${product.description}"></p>
+        </div>
+        <div class="price-info">
+           <p>Current Price: <span class="dollar">$<a th:text="${product.price}"></a></span><span> (+ $<a th:text="${product.shipping}"></a> shipping)</span></p>
+        </div>
+        <div class="bid-form">
+            <form th:action="@{/payment}" method="get">
+    <input type="hidden" name="username" th:value="${username}" />
+    <input type="hidden" name="selectedProduct" th:value="${product.id}" />
+    <input type="submit" value="Buy Now">
+</form>
+            
+            
+            
+        </div>
+    </div>
+</body>
+
+</html>
+

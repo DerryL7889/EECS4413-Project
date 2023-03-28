@@ -63,7 +63,7 @@ public class BidController {
 			
 			if(remtime < 0) {
 				if(product.getHighestBidder()!=null && product.getHighestBidder().equals(user.getUsername())) {
-					return "dutch-auction-view";
+					return "forward-auction-win-view";
 				}else {
 					return "redirect:/products?username="+user.getUsername();
 				}
