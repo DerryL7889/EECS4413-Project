@@ -1,6 +1,7 @@
 package com.project.project.controller;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +50,26 @@ public class BidController {
 		//model.addAttribute("username",username);
 		String name = bidRepo.getHighestBidderbyProductId(selectedProduct);
 		User user = userRepo.findByUsername(username);
-		model.addAttribute("name",name);
+		model.addAttribute("name", name);
 		model.addAttribute("user", user);
 		model.addAttribute("username",username);
 		if(product.getType().equals("forward")) {
-		return "forward-auction-view";
+			
+			Date now = new Date();
+	        long ut1 = now.getTime() / 1000L;
+	        System.out.println(ut1);
+			int remtime = product.getTime() - (int) ut1;
+			model.addAttribute("remTime", remtime);
+			
+			if(remtime < 0) {
+				if(product.getHighestBidder()!=null && product.getHighestBidder().equals(user.getUsername())) {
+					return "dutch-auction-view";
+				}else {
+					return "redirect:/products?username="+user.getUsername();
+				}
+			}else {
+				return "forward-auction-view";
+			}
 		}
 		
 		System.out.println(product.getType());

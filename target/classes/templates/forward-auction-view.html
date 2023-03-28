@@ -137,7 +137,7 @@ input[type=submit]:hover {
     <div class="container">
         <div class="item-description">
            <h2 th:text="${product.name}"></h2>
-           <h3> Forward Auction: <a id="time-field" class="time-remaining" th:text="${product.time}"> seconds remaining</a></h3>
+           <h3> Forward Auction: <a id="time-field" class="time-remaining" th:text="${remTime}"></a> seconds remaining!</h3>
             <p th:text="${product.description}"></p>
         </div>
         <div class="price-info">
