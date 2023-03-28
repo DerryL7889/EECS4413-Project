@@ -62,7 +62,7 @@ public class AuctionController {
           System.out.println(ut1);
           List<Product> products = productRepo.getAllProducts();
           for (Product p: products) {
-        	  productRepo.setEndTime(p.getId(), (int) (ut1 + 10));
+        	  productRepo.setEndTime(p.getId(), (int) (ut1 + 60));
           }
           return "buttonpage";
 	  }

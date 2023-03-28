@@ -114,7 +114,14 @@ public class BidController {
 			  String name = username;
 			  Product product = productRepo.getProductById(productIdInt);
 			  int originalBidAmount = product.getPrice();
-			  if (amount > originalBidAmount) {
+			  
+			  Date now = new Date();
+		        long ut1 = now.getTime() / 1000L;
+		        System.out.println(ut1);
+				int remtime = product.getTime() - (int) ut1;
+			  
+			  
+			  if (amount > originalBidAmount && remtime > 0) {
 		        // Update the product with the new bid amount
 				  productRepo.updateProductPrice(productIdInt, amount);
 				  productRepo.setHighestBidder(productIdInt, username);
@@ -125,7 +132,7 @@ public class BidController {
 				  System.out.println("/updates/"+selectedProduct);
 				  smtemplate.convertAndSend("/updates/"+selectedProduct, am);
 			  } else {
-				  System.out.println("Your bid amount must be greater than the current bid amount.");
+				  System.out.println("Your bid amount must be greater than the current bid amount, or the auction has ended");
 			  }
 			  model.addAttribute("username", name);
 			  model.addAttribute("product", product);
