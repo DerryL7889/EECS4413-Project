@@ -156,5 +156,20 @@ input[type=submit]:hover {
 	</form>
         </div> 
     </div>
+    
+    <script>
+        // Select all time remaining cells
+        const timeCells = document.querySelectorAll('.time-remaining');
+
+        // Update time remaining every second
+        setInterval(() => {
+            timeCells.forEach(cell => {
+                const remainingTime = parseInt(cell.textContent);
+                if (remainingTime > 0) {
+                    cell.textContent = remainingTime - 1;
+                }
+            });
+        }, 1000);
+    </script>
 </body>
 </html>

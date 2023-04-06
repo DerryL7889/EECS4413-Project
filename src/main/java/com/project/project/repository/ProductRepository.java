@@ -97,7 +97,7 @@ public class ProductRepository {
     
 	public void setEndTime(int productId, int time) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE Products SET time = ? WHERE id = ?";
+		String sql = "UPDATE Products SET time = ? WHERE id = ? AND type = 'forward'";
         jdbcTemplate.update(sql, time, productId);
 		
 	}
@@ -110,16 +110,16 @@ public class ProductRepository {
     
     		//deletes from data base when time runs out!!! let this be commented out till everything else works
     
-    @Scheduled(fixedRate = 1000)
-   public void updateProductTimes() {
- 	String sql = "UPDATE Products SET time = time - 1 WHERE time > 0 AND type = 'forward'";
-        int rowsAffected = jdbcTemplate.update(sql);
-     System.out.println("Number of rows updated: " + rowsAffected);
-    
-      String sql2 = "UPDATE Products SET show = 0 WHERE time = 0 AND type = 'forward'";
-     rowsAffected = jdbcTemplate.update(sql2);
-      System.out.println("Number of rows updated: " + rowsAffected);
-  }
+//    @Scheduled(fixedRate = 1000)
+//   public void updateProductTimes() {
+// 	String sql = "UPDATE Products SET time = time - 1 WHERE time > 0 AND type = 'forward'";
+//        int rowsAffected = jdbcTemplate.update(sql);
+//     System.out.println("Number of rows updated: " + rowsAffected);
+//    
+//      String sql2 = "UPDATE Products SET show = 0 WHERE time = 0 AND type = 'forward'";
+//     rowsAffected = jdbcTemplate.update(sql2);
+//      System.out.println("Number of rows updated: " + rowsAffected);
+//  }
 
     
     
