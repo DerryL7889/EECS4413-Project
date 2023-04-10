@@ -76,7 +76,7 @@ public class BidService {
 					int newPrice = p.getPrice() - DUTCH_AUCTION_PRICE;
 					System.out.println(p.getPrice() + " -> " + newPrice);
 					//adjust price
-					//productRepo.updateProductPrice(p.getId(), newPrice);
+					productRepo.updateProductPrice(p.getId(), newPrice);
 					//adjust time
 					productRepo.setEndTime(p.getId(), (int)ut1 + DUTCH_AUCTION_INTERVAL);
 					
