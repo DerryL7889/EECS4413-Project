@@ -25,6 +25,7 @@ import com.project.project.model.User;
 import com.project.project.repository.BidRepository;
 import com.project.project.repository.ProductRepository;
 import com.project.project.repository.UserRepository;
+import com.project.project.services.BidService;
 
 import jakarta.annotation.PreDestroy;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,6 +43,9 @@ public class BidController {
 	
 	@Autowired
 	private BidRepository bidRepo;
+	
+	@Autowired
+	private BidService service;
 	
 	@RequestMapping(value="/bidPage", method = RequestMethod.GET)
 	public String bidPage(@RequestParam("username") String username, @RequestParam Integer selectedProduct, Model model, HttpSession session) throws SQLException {
@@ -110,30 +114,40 @@ public class BidController {
 			  int productIdInt = Integer.parseInt(productId);
 			  //int userIdInt = Integer.parseInt(userId);
 			  int amount = Integer.parseInt(bidAmount);
+			  
+			  //call the bidservice to place a bid
+			  AuctionMessage am = service.placeBid(productIdInt, username, amount);
+			  if(am != null) {
+				  System.out.println(username + " " + amount);
+				  System.out.println("/updates/"+selectedProduct);
+				  smtemplate.convertAndSend("/updates/"+selectedProduct, am);
+			  }else {
+				  System.out.println("Your bid amount must be greater than the current bid amount, or the auction has ended");
+			  }
 			 
 			  String name = username;
 			  Product product = productRepo.getProductById(productIdInt);
-			  int originalBidAmount = product.getPrice();
-			  
-			  Date now = new Date();
-		        long ut1 = now.getTime() / 1000L;
-		        System.out.println(ut1);
-				int remtime = product.getTime() - (int) ut1;
-			  
-			  
-			  if (amount > originalBidAmount && remtime > 0) {
-		        // Update the product with the new bid amount
-				  productRepo.updateProductPrice(productIdInt, amount);
-				  productRepo.setHighestBidder(productIdInt, username);
-				  System.out.println("your bid has been placed");
-				  //create and broadcast auction message
-				  AuctionMessage am = new AuctionMessage(name,amount);
-				  System.out.println(name + " " + amount);
-				  System.out.println("/updates/"+selectedProduct);
-				  smtemplate.convertAndSend("/updates/"+selectedProduct, am);
-			  } else {
-				  System.out.println("Your bid amount must be greater than the current bid amount, or the auction has ended");
-			  }
+//			  int originalBidAmount = product.getPrice();
+//			  
+//			  Date now = new Date();
+//		        long ut1 = now.getTime() / 1000L;
+//		        System.out.println(ut1);
+//				int remtime = product.getTime() - (int) ut1;
+//			  
+//			  
+//			  if (amount > originalBidAmount && remtime > 0) {
+//		        // Update the product with the new bid amount
+//				  productRepo.updateProductPrice(productIdInt, amount);
+//				  productRepo.setHighestBidder(productIdInt, username);
+//				  System.out.println("your bid has been placed");
+//				  //create and broadcast auction message
+//				  AuctionMessage am = new AuctionMessage(name,amount);
+//				  System.out.println(name + " " + amount);
+//				  System.out.println("/updates/"+selectedProduct);
+//				  smtemplate.convertAndSend("/updates/"+selectedProduct, am);
+//			  } else {
+//				  System.out.println("Your bid amount must be greater than the current bid amount, or the auction has ended");
+//			  }
 			  model.addAttribute("username", name);
 			  model.addAttribute("product", product);
 		  }catch (Exception e){

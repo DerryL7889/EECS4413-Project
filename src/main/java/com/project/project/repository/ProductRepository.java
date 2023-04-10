@@ -97,8 +97,15 @@ public class ProductRepository {
     
 	public void setEndTime(int productId, int time) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE Products SET time = ? WHERE id = ? AND type = 'forward'";
+		String sql = "UPDATE Products SET time = ? WHERE id = ?";
         jdbcTemplate.update(sql, time, productId);
+		
+	}
+	
+	public void setEndTime(int productId, int time, String type) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE Products SET time = ? WHERE id = ? AND type = ?";
+        jdbcTemplate.update(sql, time, productId, type);
 		
 	}
     
@@ -121,13 +128,4 @@ public class ProductRepository {
 //      System.out.println("Number of rows updated: " + rowsAffected);
 //  }
 
-    
-    
-    
-    }
-    
-    
-    
-    
-
-    
+}

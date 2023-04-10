@@ -28,61 +28,57 @@ public class UserRepository {
     public UserRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
-	
-//	public User validateUser(String username, String password) {
-//	    String sql = "SELECT * FROM users WHERE username = '" + username + "'";
-//	    List<User> users = jdbcTemplate.query(sql, (rs, rowNum) ->
-//	        new User(
-//	            rs.getInt("userid"),
-//	            rs.getString("first_name"),
-//	            rs.getString("last_name"),
-//	            rs.getString("username"),
-//	            rs.getString("password"),
-//	            new Address(
-//	                    rs.getString("address"),
-//	                    rs.getString("postalcode"),
-//	                    rs.getString("city"),
-//	                    rs.getString("province"),
-//	                    rs.getString("country")
-//	                ),
-//	            rs.getInt("created")
-//	        )
-//	    );
-//
-//	    if (users.size() == 1 && users.get(0).getPasshash().equals(password)) {
-//	        return users.get(0);
-//	    } else {
-//	        return null;
-//	    }
-//	}
 	
 	
-    public User validateUser(String userid, String password) {
-    	String sql = "SELECT * FROM users Where username = ?";
+//    public User validateUser(String userid, String password) {
+//    	String sql = "SELECT * FROM users Where username = ?";
+//    	try {
+//    	List<User> results = jdbcTemplate.query(
+//                sql, new PreparedStatementSetter() {
+//                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
+//                       preparedStatement.setString(1, userid);
+//                    }
+//                 },
+//                 new UserMapper());
+//    	if(results.size() > 0) {
+//    		User user = results.get(0);
+//    		
+//    		MessageDigest md = MessageDigest.getInstance("SHA-512");
+//            String salt = "salt";
+//			md.update(salt.getBytes());
+//			//salt and hash the password
+//    		String passhash = new String(md.digest(password.getBytes()));
+//    		
+//    		if(passhash.equals(user.getPasshash())) {
+//    			//clear password field of bean before returning it for security
+//    			user.setPasshash("[this-should-be-blank]");
+//    			return user;
+//    		}
+//    	}
+//    	}catch(Exception e) {
+//    		System.out.println(e.getMessage());
+//    	}
+//    	return null;
+//    }
+    
+    public User validateUser(String userid, String passhash) {
+    	String sql = "SELECT * FROM users Where username = ? AND password = ?";
     	try {
-    	List<User> results = jdbcTemplate.query(
-                sql, new PreparedStatementSetter() {
-                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                       preparedStatement.setString(1, userid);
-                    }
-                 },
-                 new UserMapper());
-    	if(results.size() > 0) {
-    		User user = results.get(0);
-    		
-    		MessageDigest md = MessageDigest.getInstance("SHA-512");
-            String salt = "salt";
-			md.update(salt.getBytes());
-			//salt and hash the password
-    		String passhash = new String(md.digest(password.getBytes()));
-    		
-    		if(passhash.equals(user.getPasshash())) {
-    			//clear password field of bean before returning it for security
-    			user.setPasshash("[this-should-be-blank]");
-    			return user;
-    		}
-    	}
+	    	List<User> results = jdbcTemplate.query(
+	                sql, new PreparedStatementSetter() {
+	                    public void setValues(PreparedStatement preparedStatement) throws SQLException {
+	                       preparedStatement.setString(1, userid);
+	                       preparedStatement.setString(2, passhash);
+	                    }
+	                 },
+	                 new UserMapper());
+	    	if(results.size() > 0) {
+	    		User user = results.get(0);
+	    		user.setPasshash("[this-should-be-blank]");
+	    		return user;
+	    	}else {
+	    		return null;
+	    	}
     	}catch(Exception e) {
     		System.out.println(e.getMessage());
     	}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.project.project.model.User;
 import com.project.project.repository.UserRepository;
+import com.project.project.services.LoginService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +22,9 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 
     @Autowired
-    UserRepository service;
+    private UserRepository repo;
+    @Autowired
+    private LoginService service;
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String showLoginPage(ModelMap model){
@@ -30,7 +33,8 @@ public class UserController {
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(ModelMap model, @RequestParam String username, @RequestParam String passhash, HttpSession session){
-        User user = service.validateUser(username, passhash);
+        
+    	User user = service.validateUser(username, passhash);
         
         if (user != null) {
         	 session.setAttribute("user", user);
@@ -61,7 +65,7 @@ public class UserController {
 	        	session.setAttribute("userId", user.getId());
 	        	return "redirect:/products?username=" + user.getUsername();
 	        }else{
-	        	model.put("errorMessage", "User already exists, try again");
+	        	model.put("errorMessage", "Username already in use, try again");
 	        	return "signup";
 	        }
 	    }

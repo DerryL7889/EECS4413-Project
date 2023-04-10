@@ -17,6 +17,7 @@ import com.project.project.model.User;
 import com.project.project.repository.PaymentRepository;
 import com.project.project.repository.ProductRepository;
 import com.project.project.repository.UserRepository;
+import com.project.project.services.PaymentService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,6 +32,9 @@ public class PaymentController {
 	
 	@Autowired
     private UserRepository userRepo;
+	
+	@Autowired
+	private PaymentService service;
 
 	@GetMapping("/payment")
 	public String showPaymentPage(@RequestParam String username, @RequestParam Integer selectedProduct, Model model) throws SQLException {
@@ -54,12 +58,20 @@ public class PaymentController {
 	    double totalAmount = productPrice + product.getShipping();
 		User user = userRepo.findByUsername(username);
 		System.out.println(user.getFirstname());
-		paymentRepo.saveOrder(user, product, totalAmount);
-	    model.addAttribute("product", product);
-	    model.addAttribute("productPrice", productPrice);
-	    model.addAttribute("totalAmount", totalAmount);
-	    model.addAttribute("user", user);
-	    return "receipt-view";
+		
+		if(service.processPayment()) {
+			paymentRepo.saveOrder(user, product, totalAmount);
+		    model.addAttribute("product", product);
+		    model.addAttribute("productPrice", productPrice);
+		    model.addAttribute("totalAmount", totalAmount);
+		    model.addAttribute("user", user);
+		    return "receipt-view";
+		}else {
+			System.out.println("invalid payment details");
+			return "payment-view";
+		}
+		
+		
 	}
 }
 

@@ -47,12 +47,12 @@ public class ProductController {
         long ut1 = now.getTime() / 1000L;
         System.out.println(ut1);
     	for(Product p : products) {
-    		if(p.getType().equals("forward")) {
+//    		if(p.getType().equals("forward")) {
     			int remtime = p.getTime() - (int) ut1;
     			p.setTime(remtime);
-    		}else {
-    			p.setTime(0);
-    		}
+//    		}else {
+//    			p.setTime(0);
+//    		}
         }
 		return products;
     	
