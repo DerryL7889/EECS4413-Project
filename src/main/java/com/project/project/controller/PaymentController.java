@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.project.model.CardInfo;
 import com.project.project.model.Payment;
 import com.project.project.model.Product;
 import com.project.project.model.User;
@@ -52,14 +53,20 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/process-payment")
-	public String processPayment(ModelMap model,@RequestParam String username, @RequestParam("productId") Integer productId,HttpSession session) throws SQLException {
+	public String processPayment(ModelMap model,@RequestParam String username, @RequestParam("productId") Integer productId, @ModelAttribute CardInfo cardInfo, HttpSession session) throws SQLException {
 		Product product = productRepo.getProductById(productId);
-		double productPrice = product.getPrice();
-	    double totalAmount = productPrice + product.getShipping();
+		
 		User user = userRepo.findByUsername(username);
 		System.out.println(user.getFirstname());
-		
-		if(service.processPayment()) {
+//		if(cardInfo != null && cardInfo.getExpedited()) {
+//			System.out.println("Expedited Shipping selected");
+//			totalAmount += 15;
+//			product.setShipping_time(1);
+//		}
+		product = service.calculateShipping(cardInfo, product);
+		double productPrice = product.getPrice();
+	    double totalAmount = productPrice + product.getShipping();
+		if(service.processPayment(cardInfo)) {
 			paymentRepo.saveOrder(user, product, totalAmount);
 		    model.addAttribute("product", product);
 		    model.addAttribute("productPrice", productPrice);
